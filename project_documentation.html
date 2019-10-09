@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+	<div class="admintitle" align="center" style="background-color:#FF5733; color:#fff; margin-left:50px; margin-right:50px; height:70px;">
+		    <h4>
+       	    	<a href="http://127.0.0.1:8887/colera.html" style="float:left; margin-right:30px; color:#fff">Back to Map</a></h4>
+       	    	<a href="http://127.0.0.1:8887/video.html" style="float:right; margin-right:30px; color:#fff">video</a></h4>
+	        <h1>Visualization project 01 documentation</h1>
+    </div>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <style type="text/css">
+        .slice text {
+            font-size: 9pt;
+            font-family: times;
+        }   
+    </style>
+  </head>
+  <body>
+  <div class="w3-row w3-container" style="margin:40px 0;">
+   <div class="w3-half w3-container" style="margin-left:50%;">
+    <script type="text/javascript">
+
+    var w = 500,                        
+    h = 500,                            
+    r = 120,                            
+    color = d3.scale.category10();     
+
+    data = [{"label":"Male(50.35%)", "value":50.35}, 
+            {"label":"Female(49.65%)", "value":49.65}, 
+            ];
+    
+    var vis = d3.select("body")
+        .append("svg:svg")              
+        .data([data])                 
+            .attr("width", w)           
+            .attr("height", h)
+        .append("svg:g")                
+            .attr("transform", "translate(" + r*2 + "," + h/4 + ")");
+
+    var arc = d3.svg.arc()              
+        .outerRadius(r);
+
+    var pie = d3.layout.pie()           
+        .value(function(d) { return d.value; });    
+  
+    var arcs = vis.selectAll("g.slice")     
+        .data(pie)                           
+        .enter()                            
+            .append("svg:g")             
+                .attr("class", "slice"); 
+
+        arcs.append("svg:path")
+                .attr("fill", function(d, i) { return color(i); } ) 
+                .attr("d", arc);                                    
+
+        arcs.append("svg:text")                                  
+                .attr("transform", function(d) {                    
+                d.innerRadius = 0;
+                d.outerRadius = r;
+                return "translate(" + arc.centroid(d) + ")";        
+            })
+            .attr("text-anchor", "middle")                          
+            .text(function(d, i) { return data[i].label;
+
+             });
+        
+    </script>
+</div>
+  <div class="w3-half w3-container">
+    <script type="text/javascript">
+
+    var w = 500,                        
+    h = 500,                            
+    r = 120,                            
+    color = d3.scale.category20c();     
+
+    data = [{"label":"0-10(25.04%)", "value":25.04},{"label":">80(30.47%)", "value":30.47}, 
+            {"label":"11-20(8.41%)", "value":8.41},{"label":"21-40(10.16%)", "value":10.16},
+            {"label":"41-60(9.98%)", "value":9.98}, {"label":"61-80(15.94%)", "value":15.94},
+            ];
+    
+    var vis = d3.select("body")
+        .append("svg:svg")             
+        .data([data])                   
+            .attr("width", w)           
+            .attr("height", h)
+        .append("svg:g")                
+            .attr("transform", "translate(" + w/3 + "," + h/4 + ")")    
+
+    var arc = d3.svg.arc()              
+        .outerRadius(r);
+
+    var pie = d3.layout.pie()           
+        .value(function(d) { return d.value; });    
+
+    var arcs = vis.selectAll("g.slice")    
+        .data(pie)                          
+        .enter()                           
+            .append("svg:g")                
+                .attr("class", "slice");    
+
+        arcs.append("svg:path")
+                .attr("fill", function(d, i) { return color(i); } ) 
+                .attr("d", arc);                                    
+
+        arcs.append("svg:text")                                     
+                .attr("transform", function(d) {                    
+                d.innerRadius = 0;
+                d.outerRadius = r;
+                return "translate(" + arc.centroid(d) + ")";        
+            })
+            .attr("text-anchor", "middle")                         
+            .text(function(d, i) { return data[i].label; });    
+</script>
+</div>
+    <div class="content" align="left">
+    	<p><font size="5"><b>Design process....</b></font><p>
+        <p>● Firstly I started by "Analyzing the datasets" which are pumps,deaths_age_sex and deaths.</p>
+        <p>● I tried to analysize and think about the possible outcomes that are available from this model.</p>
+        <p>● Tried different combinations which I can get useful information from this datasets.</p>
+        <p>● Fnally I made some sketches based on the requirements.</p>
+        <br>
+        <img src="epi4.jpg" alt="Fig: design process" style="width:400px;height:220px;">
+        <img src="epi3.jpg" alt="Fig: design process" style="width:400px;height:220px;">
+        <p><font size="5"><b>Design Choices...</b></font><p>
+        <p>● We need to plot the john snow cholera map and necessary visualizations which need to visible all at once on screen and should be in interactive way.</p>
+        <p>● Need to select the color based on the datasets. So, first i tried with the traditional colors and then picked from the color brewer which are corectly visualizing the data.</p>
+        <p>● While developing, there was a change in design like using line graph instead of bar chart.
+        <p>● I created a buttons like age and gender i.e, gender button shows the deaths of male and female at that particular time period and age button divides total death people for all the age groups.</p>
+        <p>● Features like selecting particular day so as to see only deaths on that day in both colera map and line chart.</p>
+        <p><font size="5"><b>Observations...</b></font><p>
+        <p>● I have observered that the deaths of male and female are almost equal. So, immunity is not gender biased.</p>
+        <p>● Most of the deaths are occured for age group 80 years and above. Therefore people of this age is mostly effected with the disease.</p>
+        <p>● Form the line graph, most of the deaths are occured in the time period between 26 August to 5 september. Among all the days september 2nd has highest number of deaths.</p>
+        <p style="margin-left:18%;font-size: 20px;font-weight: bold;">Percentage of Deaths by Gender and AgeGroup</p>
+</div>
+</body>
+</html>
